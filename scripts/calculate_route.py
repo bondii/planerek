@@ -35,16 +35,13 @@ def get_adjecency_matrices() -> Tuple[List[List[int]], List[List[int]]]:
     return adj_mat_dist, adj_mat_inc
 
 
-def calculate_route(start_id: str, end_id: str, via_id: str):
+def calculate_route(start_id: str, end_id: str) -> None:
     start_node_index = get_index_of_node(nodes_df, start_id)
     end_node_index = get_index_of_node(nodes_df, end_id)
-    via_index = get_index_of_node(nodes_df, via_id)
 
     adj_mat_dist, adj_mat_inc = get_adjecency_matrices()
     dijkstras = ShortestPathAnd2ndShortestDijkstras()
-    dijkstras.shortestPath(
-        adj_mat_dist, start_node_index, end_node_index, via_index
-    )
+    dijkstras.shortestPath(adj_mat_dist, start_node_index, end_node_index)
     node_list = []
     for node_index in dijkstras.path:
         node_df = get_node_from_index(nodes_df, node_index)

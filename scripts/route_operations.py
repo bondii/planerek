@@ -39,7 +39,7 @@ def read_routes_from_csv() -> List[Route]:
 
         reader = csv.reader(f, delimiter=";")
         if has_header:
-            next(reader)  # Skip header row.
+            next(reader)
         for row in reader:
             route_list.append(
                 Route(
