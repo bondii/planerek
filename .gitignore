@@ -1,5 +1,4 @@
 *.gpkg
-.venv
-.vscode
-
+*.venv
+*.vscode
 *.log
