@@ -6,23 +6,23 @@ from matplotlib.axes import Axes
 
 from matplotlib.figure import Figure
 import pandas as pd
-from dtypes.noderelated import Node
-from dtypes.routes import Route
+from dtypes.nodes import NodeTable
+from dtypes.routes import Route_old
 
 
 ROUTE_CSV = os.path.join(os.getcwd(), "database_csv", "routes_manual.csv")
 
 
 def calculate_reverse_route(
-    node_a: Node, node_b: Node, route_AB: Route
-) -> Route:
+    node_a: NodeTable, node_b: NodeTable, route_AB: Route_old
+) -> Route_old:
     """
     Assume going node_A --> node_B
     dec_AB = inc_AB-delta_h, where delta_h = mamsl_node_B - mamsl_node_A
 
     """
 
-    return Route(
+    return Route_old(
         distance=route_AB.distance,
         incline=route_AB.incline - (node_b.mamsl - node_a.mamsl),
         start_node=node_b,
@@ -30,7 +30,7 @@ def calculate_reverse_route(
     )
 
 
-def read_routes_from_csv() -> List[Route]:
+def read_all_routes_from_csv() -> List[Route_old]:
     route_list = []
 
     with open(ROUTE_CSV, newline="", encoding="ISO-8859-1") as f:
@@ -42,11 +42,12 @@ def read_routes_from_csv() -> List[Route]:
             next(reader)
         for row in reader:
             route_list.append(
-                Route(
+                Route_old(
                     start_node=row[1],
                     end_node=row[2],
                     distance=float(row[3].replace(",", ".")),
                     incline=int(row[4]),
+                    comment=row[6],
                 )
             )
 
@@ -54,7 +55,7 @@ def read_routes_from_csv() -> List[Route]:
 
 
 def plot_routes(
-    routes: List[Route],
+    routes: List[Route_old],
     nodes_df: pd.DataFrame,
     fig: Optional[Figure] = None,
     ax: Optional[Axes] = None,

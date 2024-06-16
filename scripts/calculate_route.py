@@ -1,16 +1,16 @@
 from typing import List, Tuple
-from dtypes.noderelated import Node
+from dtypes.nodes import Node_old
 from scripts.node_operations import (
     get_index_of_node,
     get_node_from_index,
     plot_nodes,
     read_nodes_as_dataframe,
-    read_nodes_from_csv,
+    read_all_nodes_from_csv,
 )
-from scripts.route_operations import plot_routes, read_routes_from_csv
+from scripts.route_operations import plot_routes, read_all_routes_from_csv
 from scripts.shortest_way import ShortestPathAnd2ndShortestDijkstras
 
-routes = read_routes_from_csv()
+routes = read_all_routes_from_csv()
 nodes_df = read_nodes_as_dataframe()
 
 
@@ -46,9 +46,9 @@ def calculate_route(start_id: str, end_id: str) -> None:
     for node_index in dijkstras.path:
         node_df = get_node_from_index(nodes_df, node_index)
 
-        node_list.append(Node(**node_df.to_dict()))
+        node_list.append(Node_old(**node_df.to_dict()))
 
-    all_nodes = read_nodes_from_csv()
+    all_nodes = read_all_nodes_from_csv()
     fig, ax = plot_nodes(all_nodes, color="red")
     fig, ax = plot_routes(routes, nodes_df, fig, ax)
     fig, _ = plot_nodes(node_list, fig, ax, color="blue", dot_size=80)
