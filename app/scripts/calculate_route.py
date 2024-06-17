@@ -1,16 +1,16 @@
 from typing import List, Tuple
-from dtypes.nodes import Node_old
-from scripts.node_operations import (
+from app.dtypes.nodes import Node_old
+from app.scripts.node_operations import (
     get_index_of_node,
     get_node_from_index,
     plot_nodes,
     read_nodes_as_dataframe,
     read_all_nodes_from_csv,
 )
-from scripts.route_operations import plot_routes, read_all_routes_from_csv
-from scripts.shortest_way import ShortestPathAnd2ndShortestDijkstras
+from app.scripts.edge_operations import plot_edges, read_all_edges_from_csv
+from app.scripts.shortest_way import ShortestPathAnd2ndShortestDijkstras
 
-routes = read_all_routes_from_csv()
+edges = read_all_edges_from_csv()
 nodes_df = read_nodes_as_dataframe()
 
 
@@ -22,15 +22,15 @@ def get_adjecency_matrices() -> Tuple[List[List[int]], List[List[int]]]:
         [0 for _ in range(len(nodes_df))] for _ in range(len(nodes_df))
     ]
 
-    for route in routes:
-        start_node_index = get_index_of_node(nodes_df, route.start_node)
-        end_node_index = get_index_of_node(nodes_df, route.end_node)
+    for edge in edges:
+        start_node_index = get_index_of_node(nodes_df, edge.start_node)
+        end_node_index = get_index_of_node(nodes_df, edge.end_node)
 
-        adj_mat_dist[start_node_index][end_node_index] = route.distance
-        adj_mat_inc[start_node_index][end_node_index] = route.incline
+        adj_mat_dist[start_node_index][end_node_index] = edge.distance
+        adj_mat_inc[start_node_index][end_node_index] = edge.incline
 
-        adj_mat_dist[end_node_index][start_node_index] = route.distance
-        adj_mat_inc[end_node_index][start_node_index] = route.incline
+        adj_mat_dist[end_node_index][start_node_index] = edge.distance
+        adj_mat_inc[end_node_index][start_node_index] = edge.incline
 
     return adj_mat_dist, adj_mat_inc
 
@@ -50,7 +50,7 @@ def calculate_route(start_id: str, end_id: str) -> None:
 
     all_nodes = read_all_nodes_from_csv()
     fig, ax = plot_nodes(all_nodes, color="red")
-    fig, ax = plot_routes(routes, nodes_df, fig, ax)
+    fig, ax = plot_edges(edges, nodes_df, fig, ax)
     fig, _ = plot_nodes(node_list, fig, ax, color="blue", dot_size=80)
 
     fig.savefig("test_dijkstras.jpg")

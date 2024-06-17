@@ -2,7 +2,6 @@ from dataclasses import dataclass
 import uuid
 from sqlalchemy import UUID, Column, Integer, String, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 
 
 @dataclass

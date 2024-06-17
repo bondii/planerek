@@ -1,6 +1,6 @@
-from dtypes.nodes import NodeTable
-from dtypes.routes import RouteTable
-from scripts.database.PostgresClient import PostgresClient
+from app.dtypes.nodes import NodeTable
+from app.dtypes.edges import EdgeTable
+from app.scripts.database.PostgresClient import PostgresClient
 
 
 def get_node(
@@ -23,14 +23,14 @@ def get_all_nodes(pg_client: PostgresClient) -> list[NodeTable]:
         return nodes
 
 
-def get_all_nodes_from_route():
+def get_all_nodes_from_edge():
     pass
 
 
-def get_all_routes(pg_client: PostgresClient) -> list[RouteTable]:
+def get_all_edges(pg_client: PostgresClient) -> list[EdgeTable]:
     with pg_client.get_session() as session:
-        nodes = session.query(NodeTable).all()
-        return nodes
+        edges = session.query(EdgeTable).all()
+        return edges
 
 
 def post_node(pg_client: PostgresClient, node: NodeTable) -> None:
@@ -39,7 +39,7 @@ def post_node(pg_client: PostgresClient, node: NodeTable) -> None:
         session.commit()
 
 
-def post_route(pg_client: PostgresClient, route: RouteTable) -> None:
+def post_edge(pg_client: PostgresClient, edge: EdgeTable) -> None:
     with pg_client.get_session() as session:
-        session.add(route)
+        session.add(edge)
         session.commit()

@@ -4,8 +4,8 @@ import csv
 from matplotlib.axes import Axes
 import pandas as pd
 from matplotlib.figure import Figure
-from dtypes.nodes import Node_old
 import matplotlib.pyplot as plt
+from app.dtypes.nodes import Node_old
 
 NODE_CSV = os.path.join(os.getcwd(), "database_csv", "nodes.csv")
 

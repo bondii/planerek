@@ -1,13 +1,19 @@
 from dataclasses import dataclass
 import uuid
-from dtypes.nodes import Node_old, NodeTable
-from sqlalchemy import FLOAT, UUID, Column, ForeignKey, String, UniqueConstraint
-from sqlalchemy.orm import relationship
+from app.dtypes.nodes import Node_old, NodeTable
+from sqlalchemy import (
+    FLOAT,
+    UUID,
+    Column,
+    ForeignKey,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.ext.declarative import declarative_base
 
 
 @dataclass
-class Route_old:
+class Edge_old:
     distance: float  # km
     incline: int  # m
     start_node: Node_old
@@ -19,8 +25,8 @@ class Route_old:
 Base = declarative_base()
 
 
-class RouteTable(Base):
-    __tablename__ = "routes"
+class EdgeTable(Base):
+    __tablename__ = "edges"
     id = Column(UUID, primary_key=True, default=uuid.uuid4)
     start_node_id = Column(UUID, ForeignKey(NodeTable.id), nullable=False)
     end_node_id = Column(UUID, ForeignKey(NodeTable.id), nullable=False)
@@ -31,6 +37,8 @@ class RouteTable(Base):
 
     __table_args__ = (
         UniqueConstraint(
-            "start_node", "end_node", name="routes_start_node_end_node_unique"
+            "start_node_id",
+            "end_node_id",
+            name="edge_start_node_end_node_unique",
         ),
     )
