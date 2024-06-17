@@ -8,7 +8,9 @@ from app.scripts.node_operations import (
     read_all_nodes_from_csv,
 )
 from app.scripts.edge_operations import plot_edges, read_all_edges_from_csv
-from app.scripts.shortest_way import ShortestPathAnd2ndShortestDijkstras
+from app.scripts.route_calculations.Dijkstras import (
+    ShortestPathAnd2ndShortestDijkstras,
+)
 
 edges = read_all_edges_from_csv()
 nodes_df = read_nodes_as_dataframe()
