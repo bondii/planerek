@@ -32,13 +32,12 @@ class EdgeTable(Base):
     end_node_id = Column(UUID, ForeignKey(NodeTable.id), nullable=False)
     distance = Column(FLOAT, nullable=False)
     incline = Column(FLOAT, nullable=False)
-    decline = Column(FLOAT, nullable=True)
     trail_type = Column(String(length=256))
 
     __table_args__ = (
         UniqueConstraint(
             "start_node_id",
             "end_node_id",
-            name="edge_start_node_end_node_unique",
+            name="edges_start_node_end_node_unique",
         ),
     )

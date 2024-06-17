@@ -3,7 +3,6 @@ import os
 from typing import List, Optional, Tuple
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
-
 from matplotlib.figure import Figure
 import pandas as pd
 from app.dtypes.nodes import NodeTable
