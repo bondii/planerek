@@ -44,7 +44,7 @@ def fill_nodes_from_csv(pg_client: PostgresClient) -> None:
 
 
 def fill_routes_from_csv(pg_client: PostgresClient) -> None:
-    # TODO this need trouble shooting, one route came twice.
+    # TODO this need trouble shooting, one route came twice. CC_6;CC_7
     routes_old_format = read_all_routes_from_csv()
     for old_route in routes_old_format:
 
