@@ -15,6 +15,7 @@ folium = "^0.16.0"
 sqlalchemy = "^2.0.30"
 psycopg2 = "^2.9.9"
 pandas-stubs = "^2.2.2.240603"
+pydantic = "^2.7.4"
 
 
 [tool.poetry.group.dev.dependencies]

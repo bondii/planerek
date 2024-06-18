@@ -4,7 +4,7 @@ from app.scripts.database.crud_operations import (
     get_all_edges,
     get_all_nodes,
     get_node_from_id,
-    get_node_from_old_id,
+    get_node_from_external_id,
 )
 from app.scripts.node_operations import (
     plot_nodes,

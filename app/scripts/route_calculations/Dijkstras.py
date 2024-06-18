@@ -9,7 +9,7 @@ class ShortestPathAnd2ndShortestDijkstras:
 
     # use Dijkstra’s Shortest Path Algorithm, Time O(n^2)  n is number of nodes
     # auxillary Space O(n)
-    def shortestPath(self, adjacencyMatrix, src, dest, via=None):
+    def shortestPath(self, adjacencyMatrix, src, dest):
         n = len(adjacencyMatrix[0])
         shortest = {}  # Dict med kortaste avstånd till respektive nod
         visited = {}  # Dict med True/False om noden är "visited"
@@ -17,8 +17,6 @@ class ShortestPathAnd2ndShortestDijkstras:
         for v in range(0, n, 1):
             shortest[v] = sys.maxsize
             visited[v] = False
-
-        shortest[via] = -100000
         shortest[src] = 0
         parents[src] = self.NO_PARENT
         # Loopar över längden på matrisen, dvs alla noder

@@ -1,58 +1,84 @@
-from typing import List, Tuple
-from app.dtypes.nodes import Node_old
-from app.scripts.node_operations import (
-    get_index_of_node,
-    get_node_from_index,
-    plot_nodes,
-    read_nodes_as_dataframe,
-    read_all_nodes_from_csv,
-)
-from app.scripts.edge_operations import plot_edges, read_all_edges_from_csv
+import uuid
+from app.dtypes.Route import Route
+from app.dtypes.edges import EdgeTable
+from app.dtypes.nodes import NodeTable
+
 from app.scripts.route_calculations.Dijkstras import (
     ShortestPathAnd2ndShortestDijkstras,
 )
 
-edges = read_all_edges_from_csv()
-nodes_df = read_nodes_as_dataframe()
+
+def get_node_to_index_look_up_table(
+    nodes: list[NodeTable],
+) -> dict[uuid.uuid4, int]:
+    return {node.id: idx for idx, node in enumerate(nodes)}
 
 
-def get_adjecency_matrices() -> Tuple[List[List[int]], List[List[int]]]:
-    adj_mat_dist = [
-        [0 for _ in range(len(nodes_df))] for _ in range(len(nodes_df))
-    ]
-    adj_mat_inc = [
-        [0 for _ in range(len(nodes_df))] for _ in range(len(nodes_df))
-    ]
+def get_index_to_node_look_up_table(
+    nodes: list[NodeTable],
+) -> dict[int, uuid.uuid4]:
+    return {idx: node.id for idx, node in enumerate(nodes)}
+
+
+def get_distance_and_incline_adjecency_matrices(
+    nodes: list[NodeTable],
+    edges: list[EdgeTable],
+    node_id_to_index_lookup: dict[uuid.uuid4, int],
+) -> tuple[list[list[float]], list[list[float]]]:
+    n = len(nodes)
+    adjacency_matrix_distance = [[0 for _ in range(n)] for _ in range(n)]
+    adjacency_matrix_incline = [[0 for _ in range(n)] for _ in range(n)]
 
     for edge in edges:
-        start_node_index = get_index_of_node(nodes_df, edge.start_node)
-        end_node_index = get_index_of_node(nodes_df, edge.end_node)
+        start_idx = node_id_to_index_lookup[edge.start_node_id]
+        end_idx = node_id_to_index_lookup[edge.end_node_id]
+        adjacency_matrix_distance[start_idx][end_idx] = edge.distance
+        adjacency_matrix_distance[end_idx][start_idx] = edge.distance
 
-        adj_mat_dist[start_node_index][end_node_index] = edge.distance
-        adj_mat_inc[start_node_index][end_node_index] = edge.incline
+        # This is wrong, one way should be inclinee, the other decline??
+        adjacency_matrix_incline[start_idx][end_idx] = edge.incline
+        adjacency_matrix_incline[end_idx][start_idx] = edge.incline
 
-        adj_mat_dist[end_node_index][start_node_index] = edge.distance
-        adj_mat_inc[end_node_index][start_node_index] = edge.incline
-
-    return adj_mat_dist, adj_mat_inc
+    return adjacency_matrix_distance, adjacency_matrix_incline
 
 
-def calculate_route(start_id: str, end_id: str) -> None:
-    start_node_index = get_index_of_node(nodes_df, start_id)
-    end_node_index = get_index_of_node(nodes_df, end_id)
-
-    adj_mat_dist, adj_mat_inc = get_adjecency_matrices()
+def calculate_shortest_and_2nd_shortest_route(
+    start_node: NodeTable,
+    end_node: NodeTable,
+    nodes: list[NodeTable],
+    adjecency_matrix: list[list[float]],
+    node_id_to_index_lookup: dict[uuid.uuid4, int],
+) -> tuple[Route, Route]:
     dijkstras = ShortestPathAnd2ndShortestDijkstras()
-    dijkstras.shortestPath(adj_mat_dist, start_node_index, end_node_index)
-    node_list = []
-    for node_index in dijkstras.path:
-        node_df = get_node_from_index(nodes_df, node_index)
+    dijkstras.shortestPath(
+        adjacencyMatrix=adjecency_matrix,
+        src=node_id_to_index_lookup[start_node.id],
+        dest=node_id_to_index_lookup[end_node.id],
+    )
+    index_to_node_lookup = get_index_to_node_look_up_table(nodes)
+    node_ids_shortest_path = [
+        index_to_node_lookup[node_index] for node_index in dijkstras.path
+    ]
+    nodes_shortest_path = []
+    for node_id in node_ids_shortest_path:
+        for node in nodes:
+            if node.id == node_id:
+                nodes_shortest_path.append(node)
+                continue
 
-        node_list.append(Node_old(**node_df.to_dict()))
+    # dijkstras.find2ndShortest(
+    #     adjacencyMatrix=adjecency_matrix,
+    #     src=node_id_to_index_lookup[start_node.id],
+    #     dest=node_id_to_index_lookup[end_node.id],
+    # )
+    # node_ids_2nd_shortest_path = [
+    #     index_to_node_lookup[node_index] for node_index in dijkstras.path
+    # ]
+    # nodes_2nd_shortest_path = []
+    # for node_id in node_ids_2nd_shortest_path:
+    #     for node in nodes:
+    #         if node.id == node_id:
+    #             nodes_2nd_shortest_path.append(node)
+    #             continue
 
-    all_nodes = read_all_nodes_from_csv()
-    fig, ax = plot_nodes(all_nodes, color="red")
-    fig, ax = plot_edges(edges, nodes_df, fig, ax)
-    fig, _ = plot_nodes(node_list, fig, ax, color="blue", dot_size=80)
-
-    fig.savefig("test_dijkstras.jpg")
+    return Route(nodes=nodes_shortest_path)

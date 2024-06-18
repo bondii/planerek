@@ -4,7 +4,7 @@ from app.dtypes.edges import EdgeTable
 from app.scripts.database.PostgresClient import PostgresClient
 
 
-def get_node_from_old_id(
+def get_node_from_external_id(
     pg_client: PostgresClient, row: str, column: str, number: int
 ) -> NodeTable | None:
     with pg_client.get_session() as session:

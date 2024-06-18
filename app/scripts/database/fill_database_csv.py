@@ -1,7 +1,7 @@
 from app.dtypes.edges import EdgeTable
 from app.scripts.database.PostgresClient import PostgresClient
 from app.scripts.database.crud_operations import (
-    get_node_from_old_id,
+    get_node_from_external_id,
     post_node,
     post_edge,
 )
@@ -39,31 +39,27 @@ def fill_edges_from_csv(pg_client: PostgresClient) -> None:
     edges_old_format = read_all_edges_from_csv()
     for old_edge in edges_old_format:
 
-        start_node = get_node_from_old_id(
+        start_node = get_node_from_external_id(
             pg_client=pg_client,
             row=old_edge.start_node[0],
             column=old_edge.start_node[1],
             number=int(old_edge.start_node.split("_")[-1]),
         )
 
-        end_node = get_node_from_old_id(
+        end_node = get_node_from_external_id(
             pg_client=pg_client,
             row=old_edge.end_node[0],
             column=old_edge.end_node[1],
             number=int(old_edge.end_node.split("_")[-1]),
         )
 
-        try:
-            post_edge(
-                pg_client=pg_client,
-                edge=EdgeTable(
-                    start_node_id=start_node.id,
-                    end_node_id=end_node.id,
-                    distance=old_edge.distance,
-                    incline=old_edge.incline,
-                    trail_type=old_edge.comment,
-                ),
-            )
-
-        except Exception as e:
-            print(e)
+        post_edge(
+            pg_client=pg_client,
+            edge=EdgeTable(
+                start_node_id=start_node.id,
+                end_node_id=end_node.id,
+                distance=old_edge.distance,
+                incline=old_edge.incline,
+                trail_type=old_edge.comment,
+            ),
+        )
