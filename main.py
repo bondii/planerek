@@ -1,6 +1,5 @@
 import geopandas as gpd
 import folium
-import webbrowser
 
 
 def convert_timestamps_to_string(df, column: str):

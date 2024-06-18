@@ -23,6 +23,7 @@
 ;CB_3;CB_2;4,3;0;;obanad
 ;CB_3;CB_13;7,3;291;;obanad
 ;CB_4;CB_5;9,5;83;;obanad
+;CB_4;CB_13;1,1;;;stig
 ;CB_5;CC_1;4,6;92;;stig, svår att följa
 ;CC_1;CB_7;8,9;1138;;travers
 ;CC_1;BB_1;4,3;80;;stig
@@ -58,7 +59,7 @@
 ;CC_6;CC_7;0,9;4;;stig
 ;CC_7;CC_1;5,8;71;;stig
 ;CC_7;BC_1;12,2;162;;obanad
-;CC_6;CC_7;20,1;255;;stig
+;CC_6;CD_1;20,1;255;;stig
 ;BC_1;BC_2;6,1;30;;obanad
 ;BC_1;BB_4;29,1;307;;obanad
 ;BC_2;BD_1;15,9;146;;delvis stig
