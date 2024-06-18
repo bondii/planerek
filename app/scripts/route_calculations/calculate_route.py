@@ -32,6 +32,7 @@ def get_distance_and_incline_adjecency_matrices(
     for edge in edges:
         start_idx = node_id_to_index_lookup[edge.start_node_id]
         end_idx = node_id_to_index_lookup[edge.end_node_id]
+        # Gettig strange mypi error here
         adjacency_matrix_distance[start_idx][end_idx] = edge.distance
         adjacency_matrix_distance[end_idx][start_idx] = edge.distance
 

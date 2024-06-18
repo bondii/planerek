@@ -15,6 +15,7 @@ EDGE_CSV = os.path.join(os.getcwd(), "database_csv", "edges_manual.csv")
 def calculate_reverse_edge(
     node_a: NodeTable, node_b: NodeTable, edge_AB: Edge_old
 ) -> Edge_old:
+    # Legacy function, not used atm. Will convert it to correct datatype tho
     """
     Assume going node_A --> node_B
     dec_AB = inc_AB-delta_h, where delta_h = mamsl_node_B - mamsl_node_A
@@ -30,6 +31,7 @@ def calculate_reverse_edge(
 
 
 def read_all_edges_from_csv() -> List[Edge_old]:
+    # Legacy function, not used atm
     edge_list = []
 
     with open(EDGE_CSV, newline="", encoding="ISO-8859-1") as f:
@@ -59,6 +61,7 @@ def plot_edges(
     fig: Optional[Figure] = None,
     ax: Optional[Axes] = None,
 ) -> Tuple[Figure, Axes]:
+    # Legacy function, not used atm
     if not fig and not ax:
         fig, ax = plt.subplots(figsize=(20, 20))
 

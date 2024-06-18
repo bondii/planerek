@@ -11,18 +11,22 @@ NODE_CSV = os.path.join(os.getcwd(), "database_csv", "nodes.csv")
 
 
 def get_index_of_node(dataframe: pd.DataFrame, node_id: str) -> int:
+    # Legacy function, not used atm
     return dataframe.index[dataframe["id"] == node_id].values[0]
 
 
 def get_node_from_index(dataframe: pd.DataFrame, index: str) -> pd.DataFrame:
+    # Legacy function, not used atm
     return dataframe.iloc[index]
 
 
 def read_nodes_as_dataframe() -> pd.DataFrame:
+    # Legacy function, not used atm
     return pd.read_csv(NODE_CSV, encoding="ISO-8859-1", delimiter=";")
 
 
 def read_all_nodes_from_csv() -> List[Node_old]:
+    # Legacy function, not used atm
     node_list = []
 
     with open(NODE_CSV, newline="", encoding="ISO-8859-1") as f:
@@ -53,6 +57,7 @@ def plot_nodes(
     color: Optional[str] = "red",
     dot_size: Optional[int] = 20,
 ) -> Tuple[Figure, Axes]:
+    # Legacy function, not used atm
     if not fig and not ax:
         fig, ax = plt.subplots(figsize=(20, 20))
 

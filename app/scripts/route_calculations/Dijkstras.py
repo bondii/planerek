@@ -2,6 +2,7 @@ import sys
 
 
 class ShortestPathAnd2ndShortestDijkstras:
+    # Stolen from thw world wide webb
     def __init__(self):
         self.NO_PARENT = -1
         self.path = []  # nodes in the shortest path
