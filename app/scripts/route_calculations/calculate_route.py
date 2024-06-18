@@ -48,7 +48,7 @@ def calculate_shortest_and_2nd_shortest_route(
     nodes: list[NodeTable],
     adjecency_matrix: list[list[float]],
     node_id_to_index_lookup: dict[uuid.uuid4, int],
-) -> tuple[Route, Route]:
+) -> tuple[Route]:
     dijkstras = ShortestPathAnd2ndShortestDijkstras()
     dijkstras.shortestPath(
         adjacencyMatrix=adjecency_matrix,
@@ -65,6 +65,7 @@ def calculate_shortest_and_2nd_shortest_route(
             if node.id == node_id:
                 nodes_shortest_path.append(node)
                 continue
+    # Doesnt work lol
 
     # dijkstras.find2ndShortest(
     #     adjacencyMatrix=adjecency_matrix,
